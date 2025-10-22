@@ -1,22 +1,19 @@
-// University AI & Weather Research Lab – Wind Visualization v2
-// Compatible with Three.js r149–r160+
+// University AI & Weather Research Lab – Wind Visualization (CDN-safe build)
+// Fully browser-compatible version (no bundler required)
 
+// Load OrbitControls dynamically and handle future versions
 (async function() {
-  // Utility to safely load OrbitControls across versions
-  async function loadOrbitControls() {
-    if (THREE.OrbitControls) {
-      console.log("Using legacy OrbitControls");
-      return THREE.OrbitControls;
-    }
-    console.log("Using ES Module OrbitControls");
-    const module = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.min.js');
-    return module.OrbitControls;
-  }
-
   try {
-    const OrbitControls = await loadOrbitControls();
+    console.log("Loading Three.js...");
+    // Load Three.js (global mode)
+    const threeModule = await import('https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js');
+    window.THREE = threeModule;
 
-    // Scene setup
+    // Load OrbitControls compatible with global THREE
+    const controlsModule = await import('https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/controls/OrbitControls.js');
+    const OrbitControls = controlsModule.OrbitControls;
+
+    // ==== Scene Setup ====
     const canvas = document.getElementById('scene');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -69,6 +66,7 @@
     const PARTICLES = 15000;
     const positions = new Float32Array(PARTICLES * 3);
     const speeds = new Float32Array(PARTICLES);
+
     const randOnSphere = (radius) => {
       const u = Math.random();
       const v = Math.random();
@@ -147,11 +145,11 @@
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // UI updates
+    // Timestamp
     const lastUpdatedEl = document.getElementById('lastUpdated');
     if (lastUpdatedEl) lastUpdatedEl.textContent = new Date().toUTCString();
 
-    // Animation
+    // Animate
     let t = 0;
     function animate() {
       requestAnimationFrame(animate);

@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wind Visualization</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Wind Visualization | University AI & Weather Research Lab</title>
+  <link rel="stylesheet" href="./css/styles.css" />
 </head>
 <body>
-    <!-- Your app.js file now uses ES modules -->
-    <script type="module" src="js/app.js"></script>
+  <div id="app">
+    <div id="sidebar" class="card">
+      <h1>Wind Visualization Dashboard</h1>
+      <div><strong>Region:</strong> Global / Indian Ocean Focus</div>
+      <div><strong>Data Source:</strong> NOAA GFS (pluggable)</div>
+      <div><strong>Last Updated:</strong> <span id="lastUpdated">--</span></div>
+      <button id="toggleSidebar" class="btn">Hide panel</button>
+    </div>
+
+    <canvas id="scene"></canvas>
+    <footer>© University AI & Weather Research Lab – Data visualization demo</footer>
+  </div>
+
+  <!-- Modern module -->
+  <script type="module" src="./js/app.js"></script>
 </body>
 </html>

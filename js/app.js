@@ -1,58 +1,68 @@
-// Import Three.js and OrbitControls using ES modules
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js';
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/controls/OrbitControls.js';
+// University AI & Weather Research Lab – Modern ES-module version
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
 
-// Initialize scene, camera, and renderer
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const canvas = document.getElementById('scene');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x000000);
-document.body.appendChild(renderer.domElement);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setClearColor(0x001830, 1);
 
-// Add lighting
-const ambientLight = new THREE.AmbientLight(0x404040);
-scene.add(ambientLight);
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(1, 1, 1);
-scene.add(directionalLight);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+camera.position.set(0, 0, 7);
 
-// Initialize OrbitControls - notice no "THREE." prefix
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true; // Add smooth damping effect
-controls.dampingFactor = 0.05;
+controls.enableDamping = true;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.6;
 
-// Add a simple geometry to test the controls
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// Lights
+scene.add(new THREE.AmbientLight(0x88aaff, 0.6));
+const dir = new THREE.DirectionalLight(0xffffff, 0.9);
+dir.position.set(5, 3, 5);
+scene.add(dir);
 
-// Position the camera
-camera.position.z = 5;
+// Earth
+const R = 2.5;
+const loader = new THREE.TextureLoader();
+const earthTex = loader.load('https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-dark.jpg');
+const bumpTex = loader.load('https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-topology.png');
 
-// Handle window resize
+const earth = new THREE.Mesh(
+  new THREE.SphereGeometry(R, 96, 96),
+  new THREE.MeshPhongMaterial({
+    map: earthTex,
+    bumpMap: bumpTex,
+    bumpScale: 0.05,
+    specular: new THREE.Color(0x223344),
+    shininess: 6
+  })
+);
+scene.add(earth);
+
+// Simple atmosphere
+const atmo = new THREE.Mesh(
+  new THREE.SphereGeometry(R * 1.02, 64, 64),
+  new THREE.MeshBasicMaterial({ color: 0x3aa6ff, transparent: true, opacity: 0.12 })
+);
+scene.add(atmo);
+
+// Animate
+const lastUpdated = document.getElementById('lastUpdated');
+if (lastUpdated) lastUpdated.textContent = new Date().toUTCString();
+
 window.addEventListener('resize', () => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// Animation loop
 function animate() {
-    requestAnimationFrame(animate);
-    
-    // Update controls
-    controls.update();
-    
-    // Rotate the cube slightly to show animation is working
-    cube.rotation.x += 0.005;
-    cube.rotation.y += 0.01;
-    
-    renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+  earth.rotation.y += 0.0006;
+  atmo.rotation.y += 0.00065;
+  controls.update();
+  renderer.render(scene, camera);
 }
-
-// Start animation
 animate();

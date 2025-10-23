@@ -1,35 +1,128 @@
+/* -----------------------------------------
+   University AI & Weather Research Lab
+   Global Wind Visualization – Stylesheet
+------------------------------------------ */
 
-:root{
-  --bg-start:#03142a;
-  --bg-end:#083a76;
-  --pane:#0b1830e6;
-  --text:#e6f0ff;
-  --muted:#96b3d6;
-  --accent:#5cc8ff;
-  --shadow: 0 8px 30px rgba(0,0,0,0.35);
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: radial-gradient(circle at 30% 50%, #002850, #000d20);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  color: #fff;
+  overflow: hidden;
 }
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial}
-#bg{position:fixed;inset:0;background: radial-gradient(1200px 1200px at 70% 20%, var(--bg-end), var(--bg-start));}
-#app{position:relative;display:flex;height:100%;width:100%;}
-#viewer{position:relative;flex:1;display:flex;align-items:center;justify-content:center}
-#scene{width:100%;height:100%;display:block}
-#footer{position:absolute;left:12px;bottom:10px;color:var(--muted);font-size:12px;backdrop-filter: blur(2px);}
-.card{position:absolute;left:16px;top:16px;width:320px;background:var(--pane);border:1px solid #193253;border-radius:16px;color:var(--text);padding:14px;box-shadow:var(--shadow)}
-.card .header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.card .header .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
-.card h1{font-size:16px;margin:0;letter-spacing:.2px}
-.meta{font-size:13px;line-height:1.6}
-.legend{margin-top:10px}
-.legend .legend-title{font-size:12px;color:var(--muted);margin-bottom:6px}
-.legend .bar{display:flex;align-items:center;gap:10px}
-.legend .bar .scale{flex:1;height:10px;border-radius:10px;background:linear-gradient(90deg,#7fb3ff,#5cc8ff,#48e5c2,#ffe66d,#ff8a5c,#ff5c5c)}
-.btn{margin-top:10px;width:100%;padding:8px 10px;border-radius:10px;background:#11365e;color:var(--text);border:1px solid #1f5186;cursor:pointer}
-.btn:hover{background:#15426f}
-.floating{position:absolute;right:16px;top:16px;border:none;border-radius:999px;width:40px;height:40px;cursor:pointer;background:var(--pane);color:var(--text);box-shadow:var(--shadow);font-weight:700}
-.hidden{display:none}
-/* Tooltip-ish small screens */
-@media (max-width: 900px){
-  .card{width:90%;left:5%;top:10px}
-  #footer{font-size:10px}
+
+#app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Canvas (globe view) */
+#scene {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Sidebar panel */
+.card {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 320px;
+  padding: 20px;
+  background: rgba(0, 20, 40, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.card h1 {
+  margin: 0 0 10px 0;
+  font-size: 1.3em;
+  color: #79b8ff;
+}
+
+.card strong {
+  color: #ffe499;
+}
+
+.legend {
+  margin-top: 15px;
+}
+
+.legend-title {
+  margin-bottom: 4px;
+  font-size: 0.9em;
+  color: #b0cfff;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bar span {
+  font-size: 0.8em;
+  color: #ddd;
+}
+
+.bar .scale {
+  flex: 1;
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(to right, #00b3ff, #00ff9f, #ffd740, #ff5c33);
+}
+
+/* Button */
+.btn {
+  margin-top: 15px;
+  background: #003d70;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: #005ba0;
+}
+
+/* Floating info button */
+.floating {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+
+.floating:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Footer */
+footer {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8em;
+  color: #88b7ff;
+  pointer-events: none;
 }

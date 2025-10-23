@@ -1,48 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Global Wind Visualization | University AI & Weather Research Lab</title>
-  <meta name="description" content="Live global wind visualization demo for research labs." />
-  <link rel="stylesheet" href="./css/styles.css" />
-  <!-- Three.js & helpers (CDN) -->
-<!-- Three.js classic globals (works without modules/bundlers) -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/examples/js/controls/OrbitControls.js"></script>
-
-<!-- Your app -->
-<script defer src="./js/app.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind Visualization</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
-  <div id="bg"></div>
-  <div id="app">
-    <div id="sidebar" class="card">
-      <div class="header">
-        <div class="dot"></div>
-        <h1>Wind Visualization Dashboard</h1>
-      </div>
-      <div class="meta">
-        <div><strong>Region:</strong> Global / Indian Ocean Focus</div>
-        <div><strong>Data Source:</strong> NOAA GFS (pluggable)</div>
-        <div><strong>Last Updated:</strong> <span id="lastUpdated">--</span></div>
-        <div class="legend">
-          <div class="legend-title">Wind Speed (kt)</div>
-          <div class="bar">
-            <span>0</span><div class="scale"></div><span>60+</span>
-          </div>
-        </div>
-      </div>
-      <button id="toggleSidebar" class="btn">Hide panel</button>
-    </div>
-
-    <div id="viewer">
-      <canvas id="scene"></canvas>
-      <div id="footer">© University AI & Weather Research Lab – Data visualization demo (NOAA GFS-ready)</div>
-    </div>
-
-    <button id="toggleInfo" class="floating">i</button>
-  </div>
+    <!-- Your app.js file now uses ES modules -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
